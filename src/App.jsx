@@ -5,7 +5,6 @@ import TransferModal from "./components/TransferModal.jsx"
 import React, { useEffect, useState } from "react"
 import { useLocalStorage } from "@uidotdev/usehooks"
 import { ThemeContext } from "./components/ThemeContext.jsx"
-import { checkForResync, finishAuth } from "./components/js/cloudSyncing.js"
 import Toast from "./components/Toast.jsx"
 import { getObject, sendMessageToParent, setObject } from "./components/js/utils.js"
 import OnboardingModal from "./components/OnboardingModal.jsx"
@@ -31,10 +30,6 @@ function App() {
     const [toast, setToast] = useState(false)
     const [toastMessage, setToastMessage] = useState("")
 
-    const cloudSyncing = getObject("cloudSyncing", false)
-    if (cloudSyncing) {
-        checkForResync()
-    }
 
     // get the "transfer" and onboarding URL parameters
     const transferring = new URLSearchParams(window.location.search).get("transfer") ?? false
@@ -94,7 +89,6 @@ function App() {
             if (data.message === "newAuthToken") {
                 localStorage.setItem("GOOGLE_API_TOKEN", data.token)
                 console.log("API TOKEN UPDATED")
-                finishAuth()
                 pollLocalStorage()
             } else if (data.message === "transfer") {
                 console.log(data.prompts)

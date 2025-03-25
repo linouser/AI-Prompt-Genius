@@ -1,0 +1,36 @@
+{
+    "manifest_version": 3,
+    "name": "AI Prompt Genius",
+    "version": "1.0.0",
+    "description": "A collection of AI prompts to help you get the most out of AI tools",
+    "permissions": ["storage", "activeTab", "scripting", "sidePanel"],
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "side_panel": {
+        "default_path": "sidebar.html"
+    },
+    "commands": {
+        "open-sidebar": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+U",
+                "mac": "Command+Shift+U"
+            },
+            "description": "Open the sidebar"
+        },
+        "launch-search": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+P"
+            },
+            "description": "Launch prompt search"
+        }
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "icons": {
+        "16": "icons/16x16.png",
+        "48": "icons/48x48.png",
+        "128": "icons/128x128.png"
+    }
+}

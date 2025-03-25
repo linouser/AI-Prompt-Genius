@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Prompt Genius - Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            font-weight: bold;
+            font-size: 24px;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .filter-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        
+        #folder-select {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            max-width: 200px;
+        }
+        
+        #search {
+            flex: 3;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        .prompt-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .prompt-item {
+            border: 1px solid #eee;
+            border-radius: 4px;
+            padding: 16px;
+            background-color: #f9f9f9;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .prompt-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .prompt-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+        
+        .tag {
+            background-color: #e0e0e0;
+            color: #333;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .prompt-text {
+            margin-bottom: 10px;
+            color: #555;
+            flex-grow: 1;
+        }
+        
+        .prompt-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 6px;
+            margin-top: auto;
+        }
+        
+        button {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #3367d6;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .import-export {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            width: 60%;
+            max-width: 600px;
+            border-radius: 4px;
+        }
+        
+        .close {
+            float: right;
+            cursor: pointer;
+            font-size: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 4px;
+            display: none;
+            font-size: 16px;
+        }
+        
+        .dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+        
+        .dark-mode .prompt-item {
+            background-color: #444;
+            border-color: #555;
+            color: #eee;
+        }
+        
+        .dark-mode .prompt-text {
+            color: #ccc;
+        }
+        
+        .dark-mode .tag {
+            background-color: #555;
+            color: #eee;
+        }
+        
+        .dark-mode input, .dark-mode textarea, .dark-mode select {
+            background-color: #555;
+            color: #eee;
+            border-color: #666;
+        }
+        
+        .dark-mode .modal-content {
+            background-color: #333;
+            color: #eee;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">AI Prompt Genius</div>
+        <div class="controls">
+            <button id="theme-toggle">🌙</button>
+        </div>
+    </div>
+    
+    <div class="filter-container">
+        <select id="folder-select">
+            <option value="">All Prompts</option>
+            <!-- Folders will be added here dynamically -->
+        </select>
+        <input type="text" id="search" placeholder="Search prompts...">
+    </div>
+    
+    <div class="prompt-list" id="prompt-list">
+        <!-- Prompts will be added here dynamically -->
+    </div>
+    
+    <div class="action-buttons">
+        <button id="add-prompt-btn">Add New Prompt</button>
+        <div class="import-export">
+            <button id="export-btn">Export</button>
+            <button id="import-btn">Import</button>
+            <input type="file" id="file-input" accept=".json" class="hidden">
+        </div>
+    </div>
+    
+    <div id="prompt-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">Add New Prompt</h2>
+            <form id="prompt-form">
+                <div class="form-group">
+                    <label for="prompt-title-input">Title</label>
+                    <input type="text" id="prompt-title-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="prompt-text-input">Prompt Text</label>
+                    <textarea id="prompt-text-input" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="prompt-tags-input">Tags (comma separated)</label>
+                    <input type="text" id="prompt-tags-input" placeholder="general, writing, coding">
+                </div>
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="toast" class="toast"></div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>

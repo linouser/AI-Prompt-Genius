@@ -1,6 +1,6 @@
 import React from "react"
 import { ThemeContext } from "./ThemeContext.jsx"
-import { CarrotDownIcon, CrownIcon, MoonIcon, SunIcon } from "./icons/Icons.jsx"
+import { CarrotDownIcon, MoonIcon, SunIcon } from "./icons/Icons.jsx"
 import k from "../i18n/keys.js"
 import { useTranslation } from "react-i18next"
 
@@ -40,42 +40,42 @@ export default function ThemeToggle() {
                 </li>
                 <li>
                     <a onClick={() => handleThemeChange("cyberpunk")}>
-                        {t(k.CYBERPUNK)} <CrownIcon />{" "}
+                        {t(k.CYBERPUNK)}
                     </a>
                 </li>
                 <li>
                     <a onClick={() => handleThemeChange("retro")}>
-                        {t(k.RETRO)} <CrownIcon />{" "}
+                        {t(k.RETRO)}
                     </a>
                 </li>
                 <li>
                     <a onClick={() => handleThemeChange("valentine")}>
-                        {t(k.VALENTINE)} <CrownIcon />
+                        {t(k.VALENTINE)}
                     </a>
                 </li>
                 <li>
                     <a onClick={() => handleThemeChange("aqua")}>
-                        {t(k.AQUA)} <CrownIcon />
+                        {t(k.AQUA)}
                     </a>
                 </li>
                 <li>
                     <a onClick={() => handleThemeChange("nord")}>
-                        {t(k.NORD)} <CrownIcon />
+                        {t(k.NORD)}
                     </a>
                 </li>
                 <li>
                     <a onClick={() => handleThemeChange("lemonade")}>
-                        {t(k.LEMONADE)} <CrownIcon />
+                        {t(k.LEMONADE)}
                     </a>
                 </li>
                 <li>
                     <a className={"flex"} onClick={() => handleThemeChange("forest")}>
-                        {t(k.FOREST)} <MoonIcon /> <CrownIcon />
+                        {t(k.FOREST)} <MoonIcon />
                     </a>
                 </li>
                 <li>
                     <a className={"flex"} onClick={() => handleThemeChange("luxury")}>
-                        {t(k.LUXURY)} <MoonIcon /> <CrownIcon />
+                        {t(k.LUXURY)} <MoonIcon />
                     </a>
                 </li>
             </ul>

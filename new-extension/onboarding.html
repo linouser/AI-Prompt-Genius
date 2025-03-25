@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to AI Prompt Genius</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        
+        h1 {
+            color: #4285f4;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #4285f4;
+            margin-top: 30px;
+        }
+        
+        .logo {
+            display: block;
+            margin: 0 auto 30px;
+            max-width: 150px;
+        }
+        
+        .feature {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+        }
+        
+        .feature h3 {
+            margin-top: 0;
+            color: #4285f4;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        button {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background-color: #3367d6;
+        }
+        
+        .shortcut {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 0 5px;
+        }
+        
+        .dark-mode {
+            background-color: #333;
+            color: #eee;
+        }
+        
+        .dark-mode .feature {
+            background-color: #444;
+            color: #eee;
+        }
+        
+        .dark-mode .shortcut {
+            background-color: #555;
+            color: #eee;
+        }
+        
+        .dark-mode h1, .dark-mode h2, .dark-mode h3 {
+            color: #66a0ff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to AI Prompt Genius</h1>
+    
+    <div class="feature">
+        <h3>Organize Your AI Prompts</h3>
+        <p>Create, edit, and organize your AI prompts in one place. Use tags to categorize your prompts and find them quickly.</p>
+    </div>
+    
+    <div class="feature">
+        <h3>Use Variables in Your Prompts</h3>
+        <p>Create dynamic prompts with variables using the <code>{{variable_name}}</code> syntax. When you use a prompt with variables, you'll be prompted to fill in the values.</p>
+    </div>
+    
+    <div class="feature">
+        <h3>Access Your Prompts Anywhere</h3>
+        <p>Use the extension popup, sidebar, or search page to access your prompts from anywhere in your browser.</p>
+    </div>
+    
+    <h2>Keyboard Shortcuts</h2>
+    <p>
+        <strong>Open Sidebar:</strong> <span class="shortcut">Ctrl+Shift+U</span> (Windows/Linux) or <span class="shortcut">Command+Shift+U</span> (Mac)<br>
+        <strong>Open Search:</strong> <span class="shortcut">Ctrl+Shift+P</span> (Windows/Linux) or <span class="shortcut">Command+Shift+P</span> (Mac)
+    </p>
+    
+    <h2>Getting Started</h2>
+    <p>We've added some example prompts to help you get started. You can edit or delete these prompts, or add your own.</p>
+    
+    <div class="buttons">
+        <button id="open-extension-btn">Open Extension</button>
+        <button id="theme-toggle">Toggle Dark Mode</button>
+    </div>
+    
+    <script>
+        document.getElementById('open-extension-btn').addEventListener('click', () => {
+            chrome.runtime.sendMessage({ action: 'openExtension' });
+            window.close();
+        });
+        
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            
+            // Save theme preference
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            chrome.storage.local.set({ darkMode: isDarkMode });
+        });
+        
+        // Check if dark mode is enabled
+        chrome.storage.local.get('darkMode', (data) => {
+            if (data.darkMode) {
+                document.body.classList.add('dark-mode');
+            }
+        });
+    </script>
+</body>
+</html>

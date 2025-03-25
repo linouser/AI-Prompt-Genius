@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Prompt Genius</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .prompt-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+      }
+      .prompt-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        background-color: #f9f9f9;
+      }
+      .prompt-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .prompt-text {
+        color: #555;
+      }
+      .search-bar {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 20px;
+      }
+      .theme-toggle {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      .button {
+        padding: 8px 16px;
+        background-color: #4a90e2;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .button:hover {
+        background-color: #3a80d2;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>AI Prompt Genius</h1>
+        <button class="theme-toggle">🌙</button>
+      </div>
+      
+      <input type="text" class="search-bar" placeholder="Search prompts...">
+      
+      <div class="prompt-list">
+        <div class="prompt-card">
+          <div class="prompt-title">Creative Writing Assistant</div>
+          <div class="prompt-text">I want you to act as a creative writing assistant. You will help me craft engaging stories with vivid descriptions and compelling characters.</div>
+          <button class="button" onclick="copyToClipboard('I want you to act as a creative writing assistant. You will help me craft engaging stories with vivid descriptions and compelling characters.')">Copy</button>
+        </div>
+        
+        <div class="prompt-card">
+          <div class="prompt-title">Code Reviewer</div>
+          <div class="prompt-text">Act as a senior software developer reviewing my code. Identify bugs, suggest improvements for readability, performance, and maintainability.</div>
+          <button class="button" onclick="copyToClipboard('Act as a senior software developer reviewing my code. Identify bugs, suggest improvements for readability, performance, and maintainability.')">Copy</button>
+        </div>
+        
+        <div class="prompt-card">
+          <div class="prompt-title">Study Plan Creator</div>
+          <div class="prompt-text">Create a comprehensive study plan for me to learn [subject] in [timeframe]. Include resources, practice exercises, and milestones.</div>
+          <button class="button" onclick="copyToClipboard('Create a comprehensive study plan for me to learn [subject] in [timeframe]. Include resources, practice exercises, and milestones.')">Copy</button>
+        </div>
+        
+        <div class="prompt-card">
+          <div class="prompt-title">Interview Coach</div>
+          <div class="prompt-text">Act as an interview coach for a [position] role. Provide common interview questions, strategies for answering them, and feedback on my responses.</div>
+          <button class="button" onclick="copyToClipboard('Act as an interview coach for a [position] role. Provide common interview questions, strategies for answering them, and feedback on my responses.')">Copy</button>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      function copyToClipboard(text) {
+        navigator.clipboard.writeText(text)
+          .then(() => {
+            alert('Prompt copied to clipboard!');
+          })
+          .catch(err => {
+            console.error('Failed to copy: ', err);
+          });
+      }
+      
+      // Simple theme toggle
+      const themeToggle = document.querySelector('.theme-toggle');
+      let darkMode = false;
+      
+      themeToggle.addEventListener('click', () => {
+        darkMode = !darkMode;
+        if (darkMode) {
+          document.body.style.backgroundColor = '#222';
+          document.body.style.color = '#fff';
+          themeToggle.textContent = '☀️';
+          document.querySelectorAll('.prompt-card').forEach(card => {
+            card.style.backgroundColor = '#333';
+            card.style.borderColor = '#444';
+          });
+          document.querySelector('.prompt-text').style.color = '#ccc';
+        } else {
+          document.body.style.backgroundColor = '#fff';
+          document.body.style.color = '#000';
+          themeToggle.textContent = '🌙';
+          document.querySelectorAll('.prompt-card').forEach(card => {
+            card.style.backgroundColor = '#f9f9f9';
+            card.style.borderColor = '#ddd';
+          });
+          document.querySelector('.prompt-text').style.color = '#555';
+        }
+      });
+    </script>
+  </body>
+</html>

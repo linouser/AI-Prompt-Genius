@@ -18,15 +18,11 @@ import {
     setObject,
 } from "./js/utils.js"
 import LanguageSelect from "./LanguageSelect.jsx"
-import { CrownIcon, GoogleDriveIcon, TrashIcon } from "./icons/Icons.jsx"
-import { checkForResync, newToken, unlinkGsheet } from "./js/cloudSyncing.js"
+import { TrashIcon } from "./icons/Icons.jsx"
 import ShortcutInfo from "./ShortcutInfo.jsx"
 import ReactGA from "react-ga4"
-import { ActivatePro } from "./ActivatePro.jsx"
-import { ProFeatures } from "./ProFeatures.jsx"
 import Head2 from "./Head2.jsx"
 import Head4 from "./Head4.jsx"
-import { getProStatus } from "./js/pro.js"
 
 export default function SettingsModal({
     setSettingsVisible,
@@ -45,10 +41,7 @@ export default function SettingsModal({
     const [currentPage, setCurrentPage] = useState("General")
     const [confirmDelete, setConfirmDelete] = useState(false)
 
-    const cloudSyncingEnabled = getObject("cloudSyncing", false) === true
-    const sheetID = localStorage.getItem("sheetID")
 
-    const isPro = getProStatus()
 
     const handlePageChange = page => {
         setCurrentPage(page)
@@ -159,26 +152,6 @@ export default function SettingsModal({
         setPrompts(removeFolderFromPrompts(name))
     }
 
-    async function authThenResync() {
-        localStorage.setItem("lastSynced", "0")
-        checkForResync()
-    }
-
-    async function authThenUnlink() {
-        newToken()
-        localStorage.setItem("authTask", "unlinkGsheet")
-    }
-
-    function setupSync() {
-        newToken()
-        localStorage.setItem("authTask", "setupSync")
-        ReactGA.event({
-            category: "Settings Action",
-            action: "Cloud Syncing Enabled",
-            nonInteraction: false, // optional, true/false
-            transport: "xhr", // optional, beacon/xhr/image
-        })
-    }
 
     function updatePersist() {
         const checked = document.getElementById("persist-toggle").checked
@@ -223,14 +196,6 @@ export default function SettingsModal({
                                 >
                                     {t(k.IMPORT_EXPORT)}
                                 </a>
-                                <a
-                                    onClick={() => handlePageChange("Cloud")}
-                                    className={`p-1 grow tab ${
-                                        currentPage === "Cloud" ? "tab-active" : ""
-                                    }`}
-                                >
-                                    {t(k.CLOUD_SYNCING)}
-                                </a>
                             </ul>
                         </div>
 
@@ -240,34 +205,6 @@ export default function SettingsModal({
                                     <h5 className="card-title">{t(k.LANGUAGE)}</h5>
                                     <LanguageSelect />
                                     <div className={"mt-3"}>
-                                        {!isPro && (
-                                            <div>
-                                                <div className={"flex items-center"}>
-                                                    <h2 className={"text-xl font-semibold"}>
-                                                        {t(k.UPGRADE_TO_PRO)} &nbsp;
-                                                    </h2>
-                                                    <CrownIcon />
-                                                </div>
-                                                <Head4>{t(k.FEATURES)}</Head4>
-                                                <ul className={"list-disc ml-6"}>
-                                                    <li>{t(k.NO_ADS)}</li>
-                                                    <li>{t(k.ACCESS_TO_NEW_THEMES)}</li>
-                                                    <li>{t(k.SUPPORT_A_SMALL_DEVELOPER)}</li>
-                                                </ul>
-                                                <a
-                                                    href={
-                                                        "https://link.aipromptgenius.app/upgrade-pro"
-                                                    }
-                                                    target={"_blank"}
-                                                    className={"btn btn-outline my-3"}
-                                                >
-                                                    {t(k.BUY_A_PRO_LICENSE)}
-                                                </a>
-                                            </div>
-                                        )}
-                                        <div className={"mt-3"}>
-                                            <ActivatePro in_settings={true} showToast={showToast} />
-                                        </div>
                                         <div className={"mb-2"}>
                                             <h2 className={"text-xl font-semibold my-3"}>
                                                 {t(k.OTHER_SETTINGS)}
@@ -410,39 +347,6 @@ export default function SettingsModal({
                             </>
                         )}
 
-                        {currentPage === "Cloud" && (
-                            <div className="card mt-3 mb-3">
-                                {!cloudSyncingEnabled && (
-                                    <div className="card-body pt-2">
-                                        <h5 className="card-title">
-                                            {t(k.SYNC_PROMPTS_VIA_GOOGLE_SHEETS)}
-                                        </h5>
-                                        <button onClick={setupSync} className="btn">
-                                            {t(k.LINK_GOOGLE_SHEETS)} <GoogleDriveIcon />
-                                        </button>
-                                    </div>
-                                )}
-
-                                {cloudSyncingEnabled && (
-                                    <div className="card-body pt-2">
-                                        <h5 className="card-title">{t(k.CLOUD_SYNCING)}</h5>
-                                        <button className={"btn"} onClick={authThenResync}>
-                                            {t(k.MANUALLY_RESYNC)}
-                                        </button>
-                                        <button className="btn" onClick={authThenUnlink}>
-                                            {t(k.DISABLE_CLOUD_SYNCING)}
-                                        </button>
-                                        <a
-                                            className={"link link-primary"}
-                                            href={`https://docs.google.com/spreadsheets/d/${sheetID}`}
-                                            target="_blank"
-                                        >
-                                            {t(k.VIEW_LINKED_SHEET)}
-                                        </a>
-                                    </div>
-                                )}
-                            </div>
-                        )}
                     </div>
                 </div>
                 <div className="modal-backdrop">

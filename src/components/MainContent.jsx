@@ -7,10 +7,7 @@ import { useEffect, useRef, useState } from "react"
 import Toast from "./Toast"
 import CompactToggle from "./CompactToggle.jsx"
 import { useLocalStorage } from "@uidotdev/usehooks"
-import Ad from "./Ad.jsx"
 import ReactGA from "react-ga4"
-import { ProUpgradeModal } from "./ProUpgradeModal.jsx"
-import { updateProStatus } from "./js/pro.js"
 
 export default function MainContent({
     prompts,
@@ -40,13 +37,6 @@ export default function MainContent({
 
     const searchInputRef = useRef()
 
-    const currentTime = new Date().getTime()
-    const lastCheckedPro = localStorage.getItem("last_checked_pro") ?? 0
-    const hasBeen24Hours = currentTime - lastCheckedPro > 24 * 60 * 60 * 1000
-
-    if (hasBeen24Hours) {
-        updateProStatus()
-    }
 
     function getVarsFromModal(vars, text) {
         setVariables(vars)
@@ -166,9 +156,6 @@ export default function MainContent({
 
                 {filteredPrompts && (
                     <div className="h-full overflow-y-auto">
-                        <div className={"flex p-4 pt-0 mx-3"}>
-                            <Ad />
-                        </div>
                         <ul
                             className="lg:grid lg:grid-cols-2 lg:gap-3 xl:grid-cols-3 flex flex-col z-0 mx-4 max-[500px]:mx-2 max-[500px]:mb-28"
                             id="templates"
@@ -263,8 +250,6 @@ export default function MainContent({
             )}
 
             {showToastMessage && <Toast message={toastMessage} />}
-
-            <ProUpgradeModal showToast={showToast} />
         </>
     )
 }
